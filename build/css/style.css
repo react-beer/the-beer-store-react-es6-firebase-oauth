@@ -4,8 +4,9 @@
  *  0. GLOBAL
  *  1. COMPONENTS
  *    - 1.1. TITLE
- *    - 1.2. CART
- *    - 1.3. PRODUCTS
+ *    - 1.2. LOGIN
+ *    - 1.3. CART
+ *    - 1.4. PRODUCTS
  *  2. FOOTER
  *  3. RESPONSIVE
  *    - 3.1. LARGE DEVICES, WIDE SCREENS
@@ -18,6 +19,10 @@
 /* =========================================================================
    0. GLOBAL
    ========================================================================= */
+html {
+  position: relative;
+  min-height: 100%;
+}
 body {
   font-family: "Open Sans", sans-serif;
   font-size: 18px;
@@ -34,6 +39,15 @@ body {
   top: 0;
   right: 0;
   border: 0;
+}
+.msg-error {
+  margin-top: 300px;
+  margin-bottom: 100px;
+}
+.msg-error h1 {
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
 }
 /* =========================================================================
    1. COMPONENTS
@@ -66,7 +80,13 @@ body {
   -webkit-animation: blink 2.6s infinite;
           animation: blink 2.6s infinite;
 }
-/* 1.2. CART
+/* 1.2. LOGIN
+   ========================================================================= */
+.login {
+  margin-top: 300px;
+  margin-bottom: 100px;
+}
+/* 1.3. CART
    ========================================================================= */
 .nav-cart {
   margin-top: 250px;
@@ -91,7 +111,7 @@ body {
 .item-cart .amount-price {
   font-size: 1.5rem;
 }
-/* 1.3. PRODUCTS
+/* 1.4. PRODUCTS
    ========================================================================= */
 .products {
   margin-top: 50px;
@@ -219,11 +239,18 @@ body {
 .footer {
   text-align: center;
 }
+.fixed-bottom {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+}
 .love {
   position: relative;
   top: 2px;
   display: inline-block;
-  font-size: 1.9rem;
+  font-size: 1.3rem;
   color: #e74c3c;
   -webkit-transform: scale(.9);
           transform: scale(.9);
