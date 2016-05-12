@@ -1,4 +1,5 @@
 import React from 'react';
+import autoBind from 'react-autobind';
 import { 
   Grid, 
   Row,
@@ -8,8 +9,66 @@ import {
 import Icon from 'react-fontawesome';
 import Header from './Header';
 import Footer from './Footer';
+import Firebase from 'firebase';
+const ref = new Firebase('https://the-beer-store.firebaseio.com/');
 
 class Login extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      uid: ''
+    };
+
+    autoBind(this, 'authHandler');
+  }
+
+  componentWillMount() {
+    let token = localStorage.getItem('token');
+    
+    if (token) {
+      ref.authWithCustomToken(token, this.authHandler);
+    }
+  }
+
+  authenticate(provider) {
+    ref.authWithOAuthPopup(provider, this.authHandler);
+    // ref.authWithOAuthRedirect(provider, this.authHandler);
+  }
+
+  logout() {
+    ref.unauth();
+    localStorage.removeItem('token');
+    this.setState({
+      uid: null
+    });
+  }
+
+  authHandler(error, authData) {
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    localStorage.setItem('token', authData.token);
+
+    // const storeRef = ref.child(this.props.params.storeId);
+    ref.on('value', (snapshot) => {
+      let data = snapshot.val() || {};
+
+      if (!data.owner) {
+        ref.set({
+          owner: authData.uid
+        });
+      }
+
+      this.setState({
+        uid: authData.uid,
+        owner: data.owner || authData.uid
+      });
+    });
+  }
+
   render() {
     return (
       <Grid>
@@ -28,6 +87,7 @@ class Login extends React.Component {
                 <Button
                   bsSize="large"
                   className="btn-social btn-github"
+                  onClick={this.authenticate.bind(this, 'github')}
                   block
                 >
                   <Icon name="github" /> Sign in with GitHub

@@ -30,6 +30,7 @@
     "classnames": "^2.2.3",
     "connect-history-api-fallback": "^1.2.0",
     "figlet": "^1.1.1",
+    "firebase": "^2.4.2",
     "gulp": "^3.9.1",
     "gulp-bower": "0.0.13",
     "gulp-csscomb": "^3.0.7",
@@ -48,6 +49,7 @@
     "react-bootstrap": "^0.29.4",
     "react-dom": "^15.0.1",
     "react-fontawesome": "^1.1.0",
+    "react-router": "^2.4.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.7.0"
