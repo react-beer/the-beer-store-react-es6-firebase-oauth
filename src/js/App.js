@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import Store from './components/Store';
-import NotFound from './components/NotFound';
+import Store from './components/Store';
 
-ReactDOM.render(<NotFound />, document.querySelector('#app'));
+ReactDOM.render(<Store />, document.querySelector('#app'));
