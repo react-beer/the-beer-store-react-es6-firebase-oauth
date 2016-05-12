@@ -4,9 +4,9 @@ import {
   Row,
   Col,
   Modal,
-  Button,
-  Glyphicon
+  Button
 } from 'react-bootstrap';
+import Icon from 'react-fontawesome';
 
 class Cart extends React.Component {
   constructor(props) {
@@ -47,7 +47,7 @@ class Cart extends React.Component {
             className="pull-right"
             onClick={this.props.removeFromCart.bind(null, key)}
           >
-            <Glyphicon glyph="remove" aria-hidden="true" />
+            <Icon name="remove" />
           </Button>
         </Col>
       </Row>
@@ -76,7 +76,7 @@ class Cart extends React.Component {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-lg">
-            <Glyphicon glyph="shopping-cart" aria-hidden="true" /> Details Cart
+            <Icon name="shopping-cart" /> Details Cart
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -103,10 +103,7 @@ class Cart extends React.Component {
                   bsStyle="success"
                   onClick={this.showModalCart}
                 >
-                  <Glyphicon
-                    glyph="shopping-cart"
-                    aria-hidden="true"
-                  /> Show Cart ({items.length})
+                  <Icon name="shopping-cart" /> Show Cart ({items.length})
                 </Button>
               </div>
             </Col>

@@ -1,10 +1,12 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import autoBind from 'react-autobind';
 import classNames from 'classnames';
 import {
   Row,
   Col,
-  Input,
+  FormGroup,
+  FormControl,
   Button,
   Image
 } from 'react-bootstrap';
@@ -22,11 +24,11 @@ class Product extends React.Component {
 
   onClickAddToCart() {
     let key = this.props.index;
-    let amount = parseInt(this.refs.amount.getValue());
+    let amount = parseInt(ReactDOM.findDOMNode(this.refs.amount).value);
 
     this.setState({ isLoading: true });
     this.props.addToCart(key, amount);
-    this.refs.amount.refs.input.value = 1;
+    ReactDOM.findDOMNode(this.refs.amount).value = 1;
 
     setTimeout(() => {
       this.setState({ isLoading: false });
@@ -86,13 +88,14 @@ class Product extends React.Component {
             </span>
           </Col>
           <Col xs={3} sm={3} md={6}>
-            <Input
-              type="text"
-              className="amount"
-              ref="amount"
-              defaultValue="1"
-              standalone
-            />
+            <FormGroup>
+              <FormControl
+                type="text"
+                className="amount"
+                ref="amount"
+                defaultValue="1"
+              />
+            </FormGroup>
           </Col>
         </Row>
         {this.renderButton(isAvailable)}
