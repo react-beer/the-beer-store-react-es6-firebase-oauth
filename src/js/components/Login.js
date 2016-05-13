@@ -1,4 +1,5 @@
 import React from 'react';
+import { browserHistory } from 'react-router';
 import autoBind from 'react-autobind';
 import { 
   Grid, 
@@ -9,39 +10,28 @@ import {
 import Icon from 'react-fontawesome';
 import Header from './Header';
 import Footer from './Footer';
-import Firebase from 'firebase';
-const ref = new Firebase('https://the-beer-store.firebaseio.com/');
+
+// Firebase
+import Rebase from 're-base';
+const base = Rebase.createClass('https://the-beer-store.firebaseio.com/');
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      uid: ''
-    };
-
-    autoBind(this, 'authHandler');
+    autoBind(this, 'authenticate', 'authHandler');
   }
 
   componentWillMount() {
     let token = localStorage.getItem('token');
     
     if (token) {
-      ref.authWithCustomToken(token, this.authHandler);
+      base.authWithCustomToken(token, this.authHandler);
     }
   }
 
   authenticate(provider) {
-    ref.authWithOAuthPopup(provider, this.authHandler);
-    // ref.authWithOAuthRedirect(provider, this.authHandler);
-  }
-
-  logout() {
-    ref.unauth();
-    localStorage.removeItem('token');
-    this.setState({
-      uid: null
-    });
+    base.authWithOAuthPopup(provider, this.authHandler);
   }
 
   authHandler(error, authData) {
@@ -49,24 +39,13 @@ class Login extends React.Component {
       console.error(error);
       return;
     }
-
-    localStorage.setItem('token', authData.token);
-
-    // const storeRef = ref.child(this.props.params.storeId);
-    ref.on('value', (snapshot) => {
-      let data = snapshot.val() || {};
-
-      if (!data.owner) {
-        ref.set({
-          owner: authData.uid
-        });
-      }
-
-      this.setState({
-        uid: authData.uid,
-        owner: data.owner || authData.uid
+    else {
+      localStorage.setItem('token', authData.token);
+      browserHistory.push({ 
+        pathname: `/store/${authData.uid}`, 
+        state: { uid: authData.uid } 
       });
-    });
+    }
   }
 
   render() {
@@ -80,6 +59,7 @@ class Login extends React.Component {
                 <Button
                   bsSize="large"
                   className="btn-social btn-facebook"
+                  onClick={this.authenticate.bind(null, 'facebook')}
                   block
                 >
                   <Icon name="facebook" /> Sign in with Facebook
@@ -87,7 +67,7 @@ class Login extends React.Component {
                 <Button
                   bsSize="large"
                   className="btn-social btn-github"
-                  onClick={this.authenticate.bind(this, 'github')}
+                  onClick={this.authenticate.bind(null, 'github')}
                   block
                 >
                   <Icon name="github" /> Sign in with GitHub
@@ -95,6 +75,7 @@ class Login extends React.Component {
                 <Button
                   bsSize="large"
                   className="btn-social btn-google"
+                  onClick={this.authenticate.bind(null, 'google')}
                   block
                 >
                   <Icon name="google" /> Sign in with Google
@@ -102,6 +83,7 @@ class Login extends React.Component {
                 <Button
                   bsSize="large"
                   className="btn-social btn-twitter"
+                  onClick={this.authenticate.bind(null, 'twitter')}
                   block
                 >
                   <Icon name="twitter" /> Sign in with Twitter

@@ -6,7 +6,7 @@ class GitHubFork extends React.Component {
       <a href="https://github.com/react-beer">
         <img
           className="fork-ribbon"
-          src="build/img/fork-ribbon.png"
+          src="/build/img/fork-ribbon.png"
           alt="Fork me on GitHub"
         />
       </a>

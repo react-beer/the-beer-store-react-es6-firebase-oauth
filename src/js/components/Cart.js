@@ -105,6 +105,12 @@ class Cart extends React.Component {
                 >
                   <Icon name="shopping-cart" /> Show Cart ({items.length})
                 </Button>
+                <Button
+                  bsStyle="link"
+                  onClick={this.props.logout}
+                >
+                  Sign out
+                </Button>
               </div>
             </Col>
           </Row>
@@ -117,7 +123,8 @@ class Cart extends React.Component {
 Cart.propTypes = {
   beers: React.PropTypes.object.isRequired,
   cart: React.PropTypes.object.isRequired,
-  removeFromCart: React.PropTypes.func.isRequired
+  removeFromCart: React.PropTypes.func.isRequired,
+  logout: React.PropTypes.func.isRequired
 };
 
 export default Cart;

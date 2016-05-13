@@ -1,4 +1,5 @@
 import React from 'react';
+import { browserHistory } from 'react-router';
 import autoBind from 'react-autobind';
 import { Grid } from 'react-bootstrap';
 import Header from './Header';
@@ -14,7 +15,10 @@ class Store extends React.Component {
   constructor(props) {
     super(props);
 
+    let { location } = this.props;
+
     this.state = {
+      uid: location.state ? location.state.uid : null,
       beers: {},
       cart: {}
     };
@@ -23,12 +27,23 @@ class Store extends React.Component {
   }
 
   componentWillMount() {
-    base.syncState('cart', {
-      context: this,
-      state: 'cart'
-    });
+    if (this.state.uid === this.props.params.userId) {
+      this.ref = base.syncState(this.props.params.userId + '/cart', {
+        context: this,
+        state: 'cart'
+      });
 
-    this.loadBeers();
+      this.loadBeers();
+    }
+    else {
+      this.logout();
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.ref) {
+      base.removeBinding(this.ref);
+    }
   }
 
   loadBeers() {
@@ -51,6 +66,12 @@ class Store extends React.Component {
     });
   }
 
+  logout() {
+    base.unauth();
+    localStorage.removeItem('token');
+    browserHistory.push({ pathname: '/' });
+  }
+
   render() {
     return (
       <Grid>
@@ -59,6 +80,7 @@ class Store extends React.Component {
           beers={this.state.beers}
           cart={this.state.cart}
           removeFromCart={this.removeFromCart}
+          logout={this.logout}
         />
         <Products beers={this.state.beers} addToCart={this.addToCart} />
         <Footer />
