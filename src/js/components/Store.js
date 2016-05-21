@@ -40,6 +40,16 @@ class Store extends React.Component {
     }
   }
 
+  componentDidMount() {
+    $('.amount').TouchSpin({
+      min: 1,
+      max: 100,
+      verticalbuttons: true,
+      verticalupclass: 'glyphicon glyphicon-plus',
+      verticaldownclass: 'glyphicon glyphicon-minus'
+    });
+  }
+
   componentWillUnmount() {
     if (this.ref) {
       base.removeBinding(this.ref);
