@@ -1,13 +1,18 @@
 import React from 'react';
-import classNames from 'classnames';
 import Icon from 'react-fontawesome';
 
 class Footer extends React.Component {
   render() {
-    let fixedBottom = (this.props.fixedBottom ? 'fixed-bottom' : '');
+    let fixedBottomStyle = {
+      position: 'absolute',
+      right: 0,
+      bottom: 0,
+      left: 0
+    };
+    let fixedBottom = (this.props.fixedBottom ? fixedBottomStyle : {});
 
     return (
-      <footer className={classNames('footer', fixedBottom)}>
+      <footer className="footer" style={fixedBottom}>
         <p>
           Made with <span className="love"><Icon name="heart" /></span>
           <span> by </span>
